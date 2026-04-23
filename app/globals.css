@@ -1,26 +1,144 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --neu-bg: #dce8f5;
+  --neu-light: #f0f7ff;
+  --neu-shadow: #b8cfe0;
+  --neu-accent: #5ba8d6;
+  --neu-accent-dark: #3d8ab8;
+  --neu-accent-light: #a8d4f0;
+  --neu-text: #2c5f7a;
+  --neu-text-light: #5a8fa8;
+  --neu-text-muted: #8fb8cc;
+  --neu-success: #4caf8a;
+  --neu-warning: #e8a44a;
+  --neu-error: #e06b6b;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--neu-bg);
+  --color-foreground: var(--neu-text);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--neu-bg);
+  color: var(--neu-text);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
 }
+
+/* ── Neumorphic primitives ── */
+.neu-raised {
+  background: var(--neu-bg);
+  box-shadow: 6px 6px 14px var(--neu-shadow), -6px -6px 14px var(--neu-light);
+}
+
+.neu-raised-sm {
+  background: var(--neu-bg);
+  box-shadow: 4px 4px 8px var(--neu-shadow), -4px -4px 8px var(--neu-light);
+}
+
+.neu-raised-lg {
+  background: var(--neu-bg);
+  box-shadow: 10px 10px 24px var(--neu-shadow), -10px -10px 24px var(--neu-light);
+}
+
+.neu-inset {
+  background: var(--neu-bg);
+  box-shadow: inset 4px 4px 10px var(--neu-shadow), inset -4px -4px 10px var(--neu-light);
+}
+
+.neu-inset-sm {
+  background: var(--neu-bg);
+  box-shadow: inset 2px 2px 6px var(--neu-shadow), inset -2px -2px 6px var(--neu-light);
+}
+
+.neu-accent-raised {
+  background: linear-gradient(145deg, #6bbce8, #4a98c8);
+  box-shadow: 6px 6px 14px var(--neu-shadow), -4px -4px 10px var(--neu-light);
+}
+
+.neu-accent-inset {
+  background: linear-gradient(145deg, #4a98c8, #6bbce8);
+  box-shadow: inset 4px 4px 10px rgba(0,0,0,0.15), inset -4px -4px 8px rgba(255,255,255,0.3);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--neu-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--neu-shadow);
+  border-radius: 2px;
+}
+
+/* ── Toggle switch ── */
+.toggle-track {
+  transition: all 0.3s ease;
+}
+.toggle-thumb {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Button press animation ── */
+.neu-btn-press:active {
+  box-shadow: inset 4px 4px 10px var(--neu-shadow), inset -4px -4px 10px var(--neu-light);
+  transform: scale(0.97);
+}
+
+/* ── Food level bar animation ── */
+@keyframes fillBar {
+  from { width: 0%; }
+  to { width: var(--fill-width); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.08); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 0.6; }
+}
+
+@keyframes float-cat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes spin-slow {
+  from { stroke-dashoffset: var(--dash-start); }
+  to { stroke-dashoffset: var(--dash-end); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float-cat 3s ease-in-out infinite;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ── Page transition ── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeInUp 0.35s ease forwards;
+}
+
