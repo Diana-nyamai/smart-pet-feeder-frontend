@@ -21,7 +21,7 @@ export function Settings() {
   const [notifFeedComplete, setNotifFeedComplete] = useState(true);
   const [notifSchedule, setNotifSchedule] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
-  const [catName, setCatName] = useState("Oliver");
+  const [catName, setCatName] = useState("Darcy");
 
   return (
     <div className="flex flex-col gap-5 px-4 py-5 animate-fade-up">
