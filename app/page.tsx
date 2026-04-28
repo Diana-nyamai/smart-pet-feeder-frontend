@@ -96,7 +96,7 @@ export default function Home() {
             className="text-base font-bold tracking-tight"
             style={{ color: "var(--neu-text)" }}
           >
-            PawFeeder
+            MeowFeeder
           </span>
         </div>
         {/* Status dot */}

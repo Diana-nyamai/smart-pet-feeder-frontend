@@ -69,7 +69,7 @@ export function Settings() {
                 className="text-sm font-semibold"
                 style={{ color: "var(--neu-text)" }}
               >
-                PawFeeder Pro
+                MeowFeeder Pro
               </p>
               <p
                 className="text-xs"
@@ -309,7 +309,7 @@ export function Settings() {
         className="text-center text-xs pb-4"
         style={{ color: "var(--neu-text-muted)" }}
       >
-        PawFeeder v1.0.0 · Made with 💙
+        MeowFeeder v1.0.0 · Made with 💙
       </p>
     </div>
   );

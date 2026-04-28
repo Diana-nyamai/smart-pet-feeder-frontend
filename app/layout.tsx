@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PawFeeder — Smart Pet Feeder",
+  title: "MeowFeeder — Smart Pet Feeder",
   description: "Smart automatic pet feeder for your beloved cat",
 };
 
