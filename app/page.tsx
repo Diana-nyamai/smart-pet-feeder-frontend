@@ -13,8 +13,16 @@ export default function Home() {
   const [mealsToday, setMealsToday] = useState(2);
   const [totalPortions, setTotalPortions] = useState(125);
   const [foodLevel, setFoodLevel] = useState(63);
-  const [lastFed, setLastFed] = useState("2 hours ago");
+  const [lastFedTime, setLastFedTime] = useState<Date | null>(null);
+  const [LastFedLabel, setLastFedLabel] = useState("Not fed yet");
   const [notifCount, setNotifCount] = useState(2);
+
+  function formatElapsedTime(date: Date): string {
+    const secs = Math.floor((Date.now() - date.getTime()) / 1000);
+    if (secs < 60) return "Just now";
+    if (secs < 3600) return `${Math.floor(secs / 60)} min ago`;
+    return `${Math.floor(secs / 3600)} hr ago`;
+  }
 
   function handleFeedNow() {
     setIsFeeding(true);
@@ -23,9 +31,19 @@ export default function Home() {
       setMealsToday((m) => m + 1);
       setTotalPortions((t) => t + 75);
       setFoodLevel((f) => Math.max(0, f - 10));
-      setLastFed("just now");
+      setLastFedTime(new Date());
     }, 2500);
   }
+  
+
+  useEffect(() => {
+    if (!lastFedTime) return;
+    const id = setInterval(() => {
+    setLastFedLabel(formatElapsedTime(lastFedTime));
+    }, 60000);
+    setLastFedLabel(formatElapsedTime(lastFedTime));
+    return () => clearInterval(id);
+  }, [lastFedTime]);
 
   function handleNavigate(newPage: Page) {
     setPrevPage(page);
@@ -116,7 +134,7 @@ export default function Home() {
         {page === "dashboard" && (
           <Dashboard
             catName="Darcy"
-            lastFed={lastFed}
+            lastFed={LastFedLabel}
             mealsToday={mealsToday}
             totalPortions={totalPortions}
             foodLevel={foodLevel}

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { NeuCard } from "./ui/NeuCard";
 
 interface FoodLevelIndicatorProps {
-  percentage: number; // 0–100
+  percentage: number;
 }
 
 export function FoodLevelIndicator({ percentage }: FoodLevelIndicatorProps) {
