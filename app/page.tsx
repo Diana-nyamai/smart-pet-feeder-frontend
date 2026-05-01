@@ -6,6 +6,19 @@ import { NotificationsPanel } from "./components/NotificationsPanel";
 import { Settings } from "./components/Settings";
 import { BottomNav, type Page } from "./components/BottomNav";
 
+const FEED_ENDPOINT =
+  process.env.NEXT_PUBLIC_FEED_ENDPOINT ??
+  "https://smart-pet-feeder-backend.onrender.com/api/feeder/feed";
+
+interface FeedApiResponse {
+  message?: string;
+  data?: {
+    status?: string;
+    message?: string;
+    time?: string;
+  };
+}
+
 export default function Home() {
   const [page, setPage] = useState<Page>("dashboard");
   const [prevPage, setPrevPage] = useState<Page>("dashboard");
@@ -24,22 +37,43 @@ export default function Home() {
     return `${Math.floor(secs / 3600)} hr ago`;
   }
 
-  function handleFeedNow() {
+  async function handleFeedNow() {
+    if (isFeeding) return;
     setIsFeeding(true);
-    setTimeout(() => {
-      setIsFeeding(false);
+
+    try {
+      const response = await fetch(FEED_ENDPOINT, {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Feed request failed with status ${response.status}`);
+      }
+
+      const result = (await response.json()) as FeedApiResponse;
+      const responseTime = result.data?.time
+        ? new Date(result.data.time)
+        : null;
+      const fedAt =
+        responseTime && !Number.isNaN(responseTime.getTime())
+          ? responseTime
+          : new Date();
+
       setMealsToday((m) => m + 1);
       setTotalPortions((t) => t + 75);
       setFoodLevel((f) => Math.max(0, f - 10));
-      setLastFedTime(new Date());
-    }, 2500);
+      setLastFedTime(fedAt);
+    } catch (error) {
+      console.error("Failed to trigger feeding:", error);
+    } finally {
+      setIsFeeding(false);
+    }
   }
-  
 
   useEffect(() => {
     if (!lastFedTime) return;
     const id = setInterval(() => {
-    setLastFedLabel(formatElapsedTime(lastFedTime));
+      setLastFedLabel(formatElapsedTime(lastFedTime));
     }, 60000);
     setLastFedLabel(formatElapsedTime(lastFedTime));
     return () => clearInterval(id);
