@@ -29,6 +29,7 @@ export default function Home() {
   const [lastFedTime, setLastFedTime] = useState<Date | null>(null);
   const [LastFedLabel, setLastFedLabel] = useState("Not fed yet");
   const [notifCount, setNotifCount] = useState(2);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
   function formatElapsedTime(date: Date): string {
     const secs = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -63,8 +64,12 @@ export default function Home() {
       setTotalPortions((t) => t + 75);
       setFoodLevel((f) => Math.max(0, f - 10));
       setLastFedTime(fedAt);
+      setToast({ message: "Darcy has been fed! 🐾", type: "success" });
+      setTimeout(() => setToast(null), 3500);
     } catch (error) {
       console.error("Failed to trigger feeding:", error);
+      setToast({ message: "Couldn't reach the feeder. Try again.", type: "error" });
+      setTimeout(() => setToast(null), 3500);
     } finally {
       setIsFeeding(false);
     }
@@ -180,6 +185,23 @@ export default function Home() {
         {page === "notifications" && <NotificationsPanel />}
         {page === "settings" && <Settings />}
       </main>
+
+      {/* Toast notification */}
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl text-sm font-semibold shadow-lg transition-all animate-fade-up"
+          style={{
+            background: toast.type === "success" ? "var(--neu-success)" : "var(--neu-error)",
+            color: "#fff",
+            maxWidth: 340,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {toast.message}
+        </div>
+      )}
 
       {/* Bottom navigation */}
       <BottomNav
