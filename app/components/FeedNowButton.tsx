@@ -66,7 +66,7 @@ export function FeedNowButton({ onFeed, isFeeding }: FeedNowButtonProps) {
             }}
           >
             {isFeeding ? (
-              /* Spinner */
+              /* Spinner icon */
               <svg
                 className="animate-spin"
                 width="28"
