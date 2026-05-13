@@ -92,7 +92,7 @@ export function BottomNav({
               {/* Notification badge */}
               {showBadge && (
                 <span
-                  className="absolute top-1.5 right-2 w-4 h-4 rounded-full text-[9px] font-bold text-white flex items-center justify-center"
+                  className="absolute top-1.5 right-2 w-4 h-4 rounded-full text-[9px] font-semibold text-white flex items-center justify-center"
                   style={{ background: "var(--neu-error)" }}
                 >
                   {notifCount > 9 ? "9+" : notifCount}
