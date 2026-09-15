@@ -16,6 +16,26 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Tests and narrator
+
+This project uses Vitest. Run the suite once with:
+
+```bash
+npm test
+```
+
+To hear the result narrated with Fish Audio, copy `.env.example` to `.env`, add
+your Fish Audio API key and voice/reference ID, then run:
+
+```bash
+npm run narrator
+npm run narrator -- --personality=supportive
+npm run narrator -- --personality=chaotic
+```
+
+The narrator always preserves the test suite's exit code. On macOS it plays the
+generated MP3 with the built-in `afplay`; Linux and Windows require `ffplay`.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
